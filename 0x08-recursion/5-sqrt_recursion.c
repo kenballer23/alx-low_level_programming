@@ -1,46 +1,44 @@
 #include "main.h"
 /**
- * _sqrt_recursion - returns the natural square root of a number
- * @n: number whos square root we looking for
- * Return: the natural square root of a number.
- * Else the function should return -1
+ * _sqrt_recursion - Calculates the natural square root of a number recursively
+ * @n: The number for which to calculate the square root
+ *
+ * Return: The natural square root of n, or -1 if n does not have a natural
+ * square root.
  */
 int _sqrt_recursion(int n)
 {
+	/* Base cases */
 	if (n < 0)
 		return (-1);
-	else if (n == 0 || n == 1)
+	if (n == 0 || n == 1)
 		return (n);
-	else
-		return (_sqrt_recursion_helper(n, 1, n));
+
+	return (sqrt_helper(n, 0, n));
 }
 
 /**
- * _sqrt_recursion_helper - Helper function to calculate
- * the natural square root of a number recursively.
- * @n: The number to calculate the square root of.
- * @low: The lower bound for the search range.
- * @high: The upper bound for the search range.
+ * sqrt_helper - Helper function to recursively calculate the square root
+ * @n: The number for which to calculate the square root
+ * @start: The starting point of the binary search
+ * @end: The ending point of the binary search
  *
- * Return: The natural square root of n.
- * If n does not have a natural square root, return -1.
+ * Return: The natural square root of n within the specified range, or -1 if
+ * n does not have a natural square root within the range.
  */
-int _sqrt_recursion_helper(int n, int low, int high)
+int sqrt_helper(int n, int start, int end)
 {
-	int mid;
+	int mid = (start + end) / 2;
 
-	if (low <= high)
-	{
-		mid = (low + high) / 2;
-		if (mid * mid == n)
-			return (mid);
-		else if (mid * mid < n)
-			return (_sqrt_recursion_helper(n, mid + 1, high));
-		else
-			return (_sqrt_recursion_helper(n, low, mid - 1));
-	}
-	else
-	{
+	/* Base case */
+	if (start > end)
 		return (-1);
-	}
+
+	if (mid * mid == n)
+		return (mid);
+	else if (mid * mid < n)
+		return (sqrt_helper(n, mid + 1, end));
+	else
+		return (sqrt_helper(n, start, mid - 1));
 }
+
